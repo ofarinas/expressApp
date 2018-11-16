@@ -1,5 +1,8 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+const AppState = require('./model/appState');
+const User = require('./model/user').user;
 //mongoose.connect('mongodb+srv://ofarinas12@gmail.com:Luis_airam12@cluster0-qg49r.mongodb.net/test?retryWrites=true', {useMongoClient: true});
 const CONNECTION_URI = process.env.MONGODB_URI || 'mongodb://localhost/test';
 const port = process.env.PORT || 3000;
@@ -8,11 +11,14 @@ const login = require('./api/login');
 const addPerson = require('./api/addPerson');
 //mongoose.connect('mongodb://ofarinas12:osvaldo12@ds215633.mlab.com:15633/mongo');
 mongoose.connect(CONNECTION_URI);
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
+// app.use(function (req, res, next) {
+//     res.header("Access-Control-Allow-Origin", "*");
+//     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//     next();
+// });
+
+app.use(cors());
+app.options('*', cors());
 const bodyParser = require('body-parser');
 app.use(bodyParser.json()); // support json encoded bodies
 app.use(bodyParser.urlencoded({extended: true})); // support encoded bodies
@@ -31,5 +37,5 @@ app.post('/addPerson/', function (req, res) {
 app.listen(port, function () {
     console.log(`Listening on port ${port}`);
 });
-const appState = new AppState({user: new User({email:"adminSamay",password:"adminSamay"})});
+const appState = new AppState({user: new User({email: "adminSamay", password: "adminSamay"})});
 appState.save().then((req) => console.log('appState' + req), err => console.log(err));
