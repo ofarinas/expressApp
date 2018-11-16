@@ -31,5 +31,5 @@ app.post('/addPerson/', function (req, res) {
 app.listen(port, function () {
     console.log(`Listening on port ${port}`);
 });
-//const appState = new AppState({user: new User({email:"adminSamay",password:"adminSamay"})});
-//appState.save().then((req) => console.log('appState' + req), err => console.log(err));
+const appState = new AppState({user: new User({email:"adminSamay",password:"adminSamay"})});
+appState.save().then((req) => console.log('appState' + req), err => console.log(err));
